@@ -1,11 +1,10 @@
 import telebot
 from telebot import types
 from math import radians, cos
-import os
 import json
 
 
-TOKEN = os.environ.get("BOT_TOKEN")  # ← PUT YOUR REAL TOKEN HERE
+TOKEN = "8925085252:AAG_Si0ZFNQWpCsaFIFXTVTHqyWBgahVJCg"  # ← PUT YOUR REAL TOKEN HERE
 bot = telebot.TeleBot(TOKEN)
 
 TEAM_MEMBERS = [
