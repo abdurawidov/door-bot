@@ -6,7 +6,7 @@ from math import radians, cos
 
 
 
-TOKEN = os.environ.get("BOT_TOKEN", "8925085252:AAE4ifLubpdqgKvssYjh_8_DyhpRZUcPLKo")  # ← PUT YOUR REAL TOKEN HERE
+TOKEN = os.environ.get("BOT_TOKEN")  # ← PUT YOUR REAL TOKEN HERE
 bot = telebot.TeleBot(TOKEN)
 
 TEAM_MEMBERS = [
