@@ -1,9 +1,8 @@
 import telebot
-import json
-import os
 from telebot import types
 from math import radians, cos
-
+import os
+import json
 
 
 TOKEN = os.environ.get("BOT_TOKEN")  # ← PUT YOUR REAL TOKEN HERE
