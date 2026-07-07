@@ -410,21 +410,34 @@ def process_phone(message):
     if chat_id not in user_data:
         return
     if hasattr(message, 'text') and message.text and message.text.startswith('/'):
-     return
-    if hasattr(message, 'location') and message.location is not None:
-        bot.send_message(chat_id, "❌ Iltimos, telefon raqamingizni kiriting / Отправьте номер телефона")
-        bot.register_next_step_handler(message, process_phone)
         return
     
     lang = user_data[chat_id]["lang"]
+    
     if hasattr(message, 'text') and message.text == TEXTS[lang]["back"]:
         bot.send_message(chat_id, TEXTS[lang]["last_name"], reply_markup=types.ReplyKeyboardRemove())
         bot.register_next_step_handler(message, process_last_name)
         return
+    
     if hasattr(message, 'contact') and message.contact is not None:
         user_data[chat_id]["phone"] = message.contact.phone_number
+    elif hasattr(message, 'text') and message.text:
+        phone = message.text.strip()
+        # Check if it looks like a phone number (digits, +, spaces, -)
+        cleaned = phone.replace('+', '').replace(' ', '').replace('-', '').replace('(', '').replace(')', '')
+        if cleaned.isdigit() and len(cleaned) >= 7:
+            user_data[chat_id]["phone"] = phone
+        else:
+            if lang == "uz":
+                bot.send_message(chat_id, "❌ Bu telefon raqam emas. Iltimos, to'g'ri raqam kiriting yoki tugmani bosing:")
+            else:
+                bot.send_message(chat_id, "❌ Это не номер телефона. Введите правильный номер или нажмите кнопку:")
+            bot.register_next_step_handler(message, process_phone)
+            return
     else:
-        user_data[chat_id]["phone"] = message.text
+        bot.register_next_step_handler(message, process_phone)
+        return
+    
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     button = types.KeyboardButton(TEXTS[lang]["location_button"], request_location=True)
     keyboard.add(button)
