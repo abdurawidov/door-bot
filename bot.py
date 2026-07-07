@@ -361,6 +361,11 @@ def process_name(message):
     chat_id = message.chat.id
     if hasattr(message, 'text') and message.text and message.text.startswith('/'):
      return
+    if hasattr(message, 'location') and message.location is not None:
+        bot.send_message(chat_id, "❌ Iltimos, ismingizni kiriting / Напишите свое имя")
+        bot.register_next_step_handler(message, process_urgency)
+        return
+    
     lang = user_data[chat_id]["lang"]
     if message.text == TEXTS[lang]["back"]:
         start(message)
@@ -376,6 +381,11 @@ def process_last_name(message):
     chat_id = message.chat.id
     if hasattr(message, 'text') and message.text and message.text.startswith('/'):
      return
+    if hasattr(message, 'location') and message.location is not None:
+        bot.send_message(chat_id, "❌ Iltimos, familiyangizni kiriting / Напишите свою фамилию")
+        bot.register_next_step_handler(message, process_urgency)
+        return
+    
     lang = user_data[chat_id]["lang"]
     if message.text == TEXTS[lang]["back"]:
         bot.send_message(chat_id, TEXTS[lang]["name"], reply_markup=make_back_button(lang))
@@ -395,6 +405,11 @@ def process_phone(message):
     chat_id = message.chat.id
     if hasattr(message, 'text') and message.text and message.text.startswith('/'):
      return
+    if hasattr(message, 'location') and message.location is not None:
+        bot.send_message(chat_id, "❌ Iltimos, telefon raqamingizni kiriting / Отправьте номер телефона")
+        bot.register_next_step_handler(message, process_urgency)
+        return
+    
     lang = user_data[chat_id]["lang"]
     if hasattr(message, 'text') and message.text == TEXTS[lang]["back"]:
         bot.send_message(chat_id, TEXTS[lang]["last_name"], reply_markup=types.ReplyKeyboardRemove())
