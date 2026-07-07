@@ -680,8 +680,9 @@ def start(message):
     chat_id = message.chat.id
     user_data[chat_id] = {}
     
-    if chat_id in saved_users:
-        saved = saved_users[chat_id]
+    saved = None
+    if str(chat_id) in saved_users:
+        saved = saved_users[str(chat_id)]
         lang = saved["lang"]
         user_data[chat_id] = {
             "lang": lang,
@@ -804,11 +805,14 @@ def save_users_to_file():
 
 
 def load_users_from_file():
-    """Load saved_users from JSON file"""
     global saved_users
     try:
         with open("users.json", "r", encoding="utf-8") as f:
-            saved_users = json.load(f)
+            loaded = json.load(f)
+        saved_users = {}
+        for key, value in loaded.items():
+            # Keep keys as strings for safety
+            saved_users[key] = value
         print(f"✅ Loaded {len(saved_users)} users from file")
     except FileNotFoundError:
         print("📝 No saved users file found, starting fresh")
