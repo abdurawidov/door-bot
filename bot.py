@@ -359,11 +359,13 @@ def process_name(message):
     if not hasattr(message, 'chat'):
         return
     chat_id = message.chat.id
+    if chat_id not in user_data:
+        return
     if hasattr(message, 'text') and message.text and message.text.startswith('/'):
      return
     if hasattr(message, 'location') and message.location is not None:
         bot.send_message(chat_id, "❌ Iltimos, ismingizni kiriting / Напишите свое имя")
-        bot.register_next_step_handler(message, process_urgency)
+        bot.register_next_step_handler(message, process_name)
         return
     
     lang = user_data[chat_id]["lang"]
@@ -379,11 +381,13 @@ def process_last_name(message):
     if not hasattr(message, 'chat'):
         return
     chat_id = message.chat.id
+    if chat_id not in user_data:
+        return
     if hasattr(message, 'text') and message.text and message.text.startswith('/'):
      return
     if hasattr(message, 'location') and message.location is not None:
         bot.send_message(chat_id, "❌ Iltimos, familiyangizni kiriting / Напишите свою фамилию")
-        bot.register_next_step_handler(message, process_urgency)
+        bot.register_next_step_handler(message, process_last_name)
         return
     
     lang = user_data[chat_id]["lang"]
