@@ -482,6 +482,10 @@ def process_problem(message):
         bot.send_message(chat_id, "❌ Iltimos, tugmalardan birini tanlang / Выберите один из вариантов")
         bot.register_next_step_handler(message, process_problem)
         return
+    if hasattr(message, 'contact') and message.contact is not None:
+        bot.send_message(chat_id, "❌ Iltimos, tugmalardan birini tanlang / Выберите один из вариантов")
+        bot.register_next_step_handler(message, process_problem)
+        return
     lang = user_data[chat_id]["lang"]
     if message.text == TEXTS[lang]["back"]:
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
@@ -522,6 +526,10 @@ def process_urgency(message):
     chat_id = message.chat.id
     if hasattr(message, 'text') and message.text and message.text.startswith('/'):
      return
+    if hasattr(message, 'contact') and message.contact is not None:
+      bot.send_message(chat_id, "❌ Iltimos, tugmalardan birini tanlang / Выберите один из вариантов")
+      bot.register_next_step_handler(message, process_problem)
+      return
     lang = user_data[chat_id]["lang"]
     if message.text == TEXTS[lang]["back"]:
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
@@ -558,6 +566,10 @@ def process_details(message):
     if hasattr(message, 'location') and message.location is not None:
         bot.send_message(chat_id, "❌ Iltimos, tugmalardan birini tanlang / Выберите один из вариантов")
         bot.register_next_step_handler(message, process_urgency)
+        return
+    if hasattr(message, 'contact') and message.contact is not None:
+        bot.send_message(chat_id, "❌ Iltimos, tugmalardan birini tanlang / Выберите один из вариантов")
+        bot.register_next_step_handler(message, process_problem)
         return
         
     lang = user_data[chat_id]["lang"] 
