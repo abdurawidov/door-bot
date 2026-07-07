@@ -470,6 +470,7 @@ def process_location(message):
         bot.register_next_step_handler(message, process_location)
         return
     user_data[chat_id]["lon"] = message.location.longitude
+    user_data[chat_id]["lon"] = message.location.longitude
     nearest = find_nearest_team_member(user_data[chat_id]["lat"], user_data[chat_id]["lon"])
     user_data[chat_id]["nearest_member"] = nearest
     bot.send_message(chat_id, TEXTS[lang]["closest_found"].format(name=nearest["name"], zone=nearest["zone"]),
