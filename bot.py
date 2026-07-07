@@ -484,7 +484,7 @@ def process_problem(message):
         return
     
     lang = user_data[chat_id]["lang"]
-     if hasattr(message, 'phone') and message.location is not None:
+     if hasattr(message, 'phone') and message.phone is not None:
         bot.send_message(chat_id, "❌ Iltimos, tugmalardan birini tanlang / Выберите один из вариантов")
         bot.register_next_step_handler(message, process_problem)
         return
@@ -529,7 +529,7 @@ def process_urgency(message):
     chat_id = message.chat.id
     if hasattr(message, 'text') and message.text and message.text.startswith('/'):
      return
-     if hasattr(message, 'phone') and message.location is not None:
+     if hasattr(message, 'phone') and message.phone is not None:
         bot.send_message(chat_id, "❌ Iltimos, tugmalardan birini tanlang / Выберите один из вариантов")
         bot.register_next_step_handler(message, process_urgency)
         return
