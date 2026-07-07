@@ -417,6 +417,12 @@ def process_phone(message):
         return
     
     lang = user_data[chat_id]["lang"]
+    if not hasattr(message, 'contact') or message.contact is None:
+        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+        keyboard.add(TEXTS[lang]["back"])
+        bot.send_message(chat_id, "📍 Lokatsiya yuboring / Отправьте геолокацию", reply_markup=keyboard)
+        bot.register_next_step_handler(message, process_phone)
+        return
     if hasattr(message, 'text') and message.text == TEXTS[lang]["back"]:
         bot.send_message(chat_id, TEXTS[lang]["last_name"], reply_markup=types.ReplyKeyboardRemove())
         bot.register_next_step_handler(message, process_last_name)
@@ -456,7 +462,6 @@ def process_location(message):
         bot.send_message(chat_id, "📍 Lokatsiya yuboring / Отправьте геолокацию", reply_markup=keyboard)
         bot.register_next_step_handler(message, process_location)
         return
-    user_data[chat_id]["lat"] = message.location.latitude
     user_data[chat_id]["lon"] = message.location.longitude
     nearest = find_nearest_team_member(user_data[chat_id]["lat"], user_data[chat_id]["lon"])
     user_data[chat_id]["nearest_member"] = nearest
